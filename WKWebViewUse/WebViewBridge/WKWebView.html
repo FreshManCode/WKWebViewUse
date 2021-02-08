@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+
+<script type="text/javascript">
+
+  function callBridge(jsName = "", obj = {}) {
+    if (/ios|iphone|ipod|pad/i.test(navigator.userAgent)) {
+      try {
+        console.log("webkit:----window:", window.webkit, window)
+        window.webkit.messageHandlers[jsName].postMessage(obj)
+      }
+      catch (e) {
+        console.log("callBridge error is:", e)
+      }
+    }
+  }
+
+  function submit() {
+    console.log("submit")
+    ocCallMethod("Hello")
+    callBridge("submit", { "name": "submit" })
+  }
+
+
+  function testAlert() {
+    console.log("webkit:----window:", window.webkit, window)
+    window.webkit.messageHandlers.testMethodOne.postMessage({
+      "方法": "测试",
+      "天下": "红光",
+      "age": "35"
+    });
+  }
+
+  function changeColor() {
+    console.log("changeColor")
+    window.webkit.messageHandlers.changeColor.postMessage({
+      "name": "李白"
+    });
+  }
+
+  function ocCallMethod(myMessage="name") {
+    let msssage = "oc call message :" + myMessage
+    console.log("oc call message",msssage)
+    alert(msssage)
+  }
+
+</script>
+
+<body style="width: 100%;height: 100%">
+  <div class="content" style="width: 100%;height: 400px; background: pink;">
+    <button id="clickButtton" type="button" style="background: red;height: 50px;border-radius: 10px;"
+      onclick="testAlert()">点我试试</button>
+    <br>
+    <br>
+    <form id="selectedForm">
+      <select id='testSelected'>
+        <option id='one' style="color: royalblue;">上海</option>
+        <option id='two' style="color: royalblue;">北京</option>
+        <option id='three' style="color: royalblue;">南京</option>
+      </select>
+    </form>
+    <h4 id="fourthTitle">下面是一段文字的介绍哦:</h4>
+    <p>使用网格系统时,只添加 .am-u-sm-* class,移除其他断点的 class</p>
+    <button id="clickButtonTwo" type="button"
+      style="border-width: 1px; border-color: lightblue;border-radius: 5px; background: white;height: 50px"
+      onclick="changeColor()">改变上面标题的颜色吧!</button>
+
+    <button id="clickButtonThree" type="button"
+      style="border-width: 1px; border-color: lightblue;border-radius: 5px; background: white;height: 50px"
+      onclick="submit()">Submit</button>
+  </div>
+</body>
+
+</html>
